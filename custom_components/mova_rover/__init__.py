@@ -17,12 +17,6 @@ from .const import (
 from .models import MovaDevice, MovaRuntimeData
 
 
-async def async_setup(hass: Any, config: dict[str, Any]) -> bool:
-    """Set up is performed through config entries only."""
-
-    return True
-
-
 async def async_setup_entry(hass: Any, entry: Any) -> bool:
     """Set up one MOVA Rover device."""
 
@@ -58,7 +52,7 @@ async def async_setup_entry(hass: Any, entry: Any) -> bool:
 
 
 async def async_unload_entry(hass: Any, entry: Any) -> bool:
-    """Unload a MOVA Rover config entry and forget its cloud tokens."""
+    """Unload a MOVA Rover config entry and forget its credentials."""
 
     from homeassistant.const import Platform
 
