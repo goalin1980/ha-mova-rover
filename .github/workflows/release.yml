@@ -1,0 +1,43 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - "v*.*.*"
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+      - name: Verify version and tag
+        run: |
+          python .github/scripts/check_version.py
+          python - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          version = json.loads(
+              Path("custom_components/mova_rover/manifest.json").read_text(encoding="utf-8")
+          )["version"]
+          tag = os.environ["GITHUB_REF_NAME"]
+          if tag != f"v{version}":
+              raise SystemExit(f"Tag {tag!r} does not match manifest version {version!r}")
+          PY
+      - name: Build HACS archive
+        run: |
+          cd custom_components/mova_rover
+          zip -r ../../mova_rover.zip . -x '*__pycache__*' '*.pyc' '*.pyo'
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          gh release create "$GITHUB_REF_NAME" mova_rover.zip
+          --verify-tag --title "$GITHUB_REF_NAME" --generate-notes

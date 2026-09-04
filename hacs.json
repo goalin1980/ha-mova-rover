@@ -1,0 +1,7 @@
+{
+  "name": "MOVA Rover",
+  "render_readme": true,
+  "zip_release": true,
+  "filename": "mova_rover.zip",
+  "homeassistant": "2026.9.0"
+}

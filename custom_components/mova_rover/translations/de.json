@@ -1,0 +1,66 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Mit MOVAhome verbinden",
+        "description": "Experimentelle, rein lesende Cloud-Integration. Verwende ein separates MOVAhome-Konto, für das der Besitzer den Rover freigegeben hat.",
+        "data": {
+          "username": "E-Mail",
+          "password": "Passwort",
+          "region": "Cloud-Region"
+        }
+      },
+      "device": {
+        "title": "Gerät auswählen",
+        "description": "Unbekannte Modelle werden absichtlich angezeigt, damit der Rover X10 sicher identifiziert werden kann.",
+        "data": {
+          "device": "Gerät"
+        }
+      },
+      "reauth_confirm": {
+        "title": "MOVAhome neu verbinden",
+        "description": "Gib das aktuelle Passwort für {username} ein.",
+        "data": {
+          "password": "Passwort"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "MOVAhome konnte nicht über eine verifizierte HTTPS-Verbindung erreicht werden.",
+      "invalid_auth": "MOVAhome hat die Zugangsdaten abgelehnt.",
+      "invalid_response": "MOVAhome hat eine unerwartete Antwort geliefert.",
+      "rate_limited": "MOVAhome begrenzt die Anfragen vorübergehend. Versuche es später erneut.",
+      "no_devices": "Für dieses Konto wurden keine eigenen oder freigegebenen Geräte gefunden.",
+      "device_not_found": "Das konfigurierte Gerät ist für dieses Konto nicht mehr sichtbar.",
+      "unknown": "Unerwarteter Fehler. Zugangsdaten und Rohantworten wurden nicht protokolliert."
+    },
+    "abort": {
+      "already_configured": "Dieses Gerät ist bereits konfiguriert.",
+      "device_not_found": "Das ausgewählte Gerät wurde nicht gefunden.",
+      "reauth_successful": "Die MOVAhome-Anmeldung wurde aktualisiert.",
+      "setup_expired": "Die Einrichtung ist abgelaufen. Starte sie erneut."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery": {"name": "Akku"},
+      "status": {
+        "name": "Status",
+        "state": {
+          "idle": "Bereit",
+          "charging": "Lädt",
+          "charged": "Geladen",
+          "updating": "Aktualisiert",
+          "cleaning": "Reinigt"
+        }
+      },
+      "raw_status": {"name": "Rohstatus"},
+      "last_seen": {"name": "Zuletzt gesehen"}
+    },
+    "binary_sensor": {
+      "online": {"name": "Cloud-Verbindung"},
+      "charging": {"name": "Ladevorgang"},
+      "cleaning": {"name": "Reinigung"}
+    }
+  }
+}

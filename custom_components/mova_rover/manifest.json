@@ -1,0 +1,12 @@
+{
+  "domain": "mova_rover",
+  "name": "MOVA Rover",
+  "codeowners": ["@goalin1980"],
+  "config_flow": true,
+  "documentation": "https://github.com/goalin1980/ha-mova-rover",
+  "integration_type": "device",
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/goalin1980/ha-mova-rover/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}

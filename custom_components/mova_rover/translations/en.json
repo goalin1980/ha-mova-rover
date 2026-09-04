@@ -1,0 +1,66 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Connect to MOVAhome",
+        "description": "Experimental, read-only cloud integration. Use a separate MOVAhome account to which the owner has shared the Rover.",
+        "data": {
+          "username": "Email",
+          "password": "Password",
+          "region": "Cloud region"
+        }
+      },
+      "device": {
+        "title": "Choose a device",
+        "description": "Unknown models are intentionally shown so the Rover X10 can be identified safely.",
+        "data": {
+          "device": "Device"
+        }
+      },
+      "reauth_confirm": {
+        "title": "Reconnect MOVAhome",
+        "description": "Enter the current password for {username}.",
+        "data": {
+          "password": "Password"
+        }
+      }
+    },
+    "error": {
+      "cannot_connect": "Could not connect to MOVAhome using verified HTTPS.",
+      "invalid_auth": "MOVAhome rejected the credentials.",
+      "invalid_response": "MOVAhome returned an unexpected response.",
+      "rate_limited": "MOVAhome temporarily rate-limited the request. Try again later.",
+      "no_devices": "No owned or shared devices were returned by this account.",
+      "device_not_found": "The configured device is no longer visible to this account.",
+      "unknown": "Unexpected error. No credentials or raw response were logged."
+    },
+    "abort": {
+      "already_configured": "This device is already configured.",
+      "device_not_found": "The selected device could not be found.",
+      "reauth_successful": "MOVAhome authentication was updated.",
+      "setup_expired": "The setup session expired. Start again."
+    }
+  },
+  "entity": {
+    "sensor": {
+      "battery": {"name": "Battery"},
+      "status": {
+        "name": "Status",
+        "state": {
+          "idle": "Idle",
+          "charging": "Charging",
+          "charged": "Charged",
+          "updating": "Updating",
+          "cleaning": "Cleaning"
+        }
+      },
+      "raw_status": {"name": "Raw status"},
+      "last_seen": {"name": "Last seen"}
+    },
+    "binary_sensor": {
+      "online": {"name": "Cloud connection"},
+      "charging": {"name": "Charging"},
+      "cleaning": {"name": "Cleaning"}
+    }
+  }
+}
