@@ -31,6 +31,7 @@ BASELINE_PROPERTIES: tuple[tuple[int, int], ...] = (
 )
 
 STATUS_IDLE = "idle"
+STATUS_DOCKED = "docked"
 STATUS_CHARGING = "charging"
 STATUS_CHARGED = "charged"
 STATUS_UPDATING = "updating"
@@ -38,6 +39,7 @@ STATUS_CLEANING = "cleaning"
 
 STATUS_OPTIONS = (
     STATUS_IDLE,
+    STATUS_DOCKED,
     STATUS_CHARGING,
     STATUS_CHARGED,
     STATUS_UPDATING,

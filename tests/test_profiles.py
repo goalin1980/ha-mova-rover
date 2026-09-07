@@ -1,10 +1,11 @@
 """Tests for conservative pool-robot decoding."""
 
-from custom_components.mova_rover.const import STATUS_CLEANING
+from custom_components.mova_rover.const import STATUS_CLEANING, STATUS_DOCKED, STATUS_IDLE
 from custom_components.mova_rover.models import MovaDevice, MovaProperty
 from custom_components.mova_rover.profiles import decode_state
 
 DEVICE = MovaDevice(device_id="1", model="unknown", name="Rover")
+ROVER_X10 = MovaDevice(device_id="x10", model="mova.swbot.g2526", name="Rover X10")
 
 
 def test_related_swbot_baseline_decodes_cleaning_and_battery() -> None:
@@ -49,3 +50,31 @@ def test_failed_properties_are_not_interpreted() -> None:
     assert state.raw_status is None
     assert state.battery is None
     assert state.online is False
+
+
+def test_x10_status_two_is_docked_without_claiming_charge_phase() -> None:
+    for battery in (14, 100):
+        properties = {
+            (2, 1): MovaProperty(2, 1, 0, 2),
+            (3, 1): MovaProperty(3, 1, 0, battery),
+        }
+
+        state = decode_state(ROVER_X10, properties, response_received=True)
+
+        assert state.status == STATUS_DOCKED
+        assert state.battery == battery
+        assert state.charging is None
+        assert state.cleaning is False
+
+
+def test_x10_status_zero_is_idle_after_leaving_dock() -> None:
+    properties = {
+        (2, 1): MovaProperty(2, 1, 0, 0),
+        (3, 1): MovaProperty(3, 1, 0, 100),
+    }
+
+    state = decode_state(ROVER_X10, properties, response_received=True)
+
+    assert state.status == STATUS_IDLE
+    assert state.charging is False
+    assert state.cleaning is False

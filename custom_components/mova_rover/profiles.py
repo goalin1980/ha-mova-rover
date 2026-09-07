@@ -9,6 +9,7 @@ from .const import (
     STATUS_CHARGED,
     STATUS_CHARGING,
     STATUS_CLEANING,
+    STATUS_DOCKED,
     STATUS_IDLE,
     STATUS_UPDATING,
 )
@@ -21,6 +22,8 @@ _RELATED_SWBOT_STATUS = {
     3: STATUS_UPDATING,
     4: STATUS_CLEANING,
 }
+
+_ROVER_X10_MODEL = "mova.swbot.g2526"
 
 
 def _integer(value: object) -> int | None:
@@ -75,7 +78,13 @@ def decode_state(
     status = _RELATED_SWBOT_STATUS.get(raw_status)
 
     charging: bool | None = heartbeat_charging
-    if status in (STATUS_CHARGING, STATUS_CHARGED):
+    if device.model.casefold() == _ROVER_X10_MODEL and raw_status == 2:
+        # Correlated X10 captures return 2 both while charging and after charge
+        # completion, then 0 when removed from the dock. The baseline property
+        # therefore proves a docked state but not whether current is flowing.
+        status = STATUS_DOCKED
+        charging = None
+    elif status in (STATUS_CHARGING, STATUS_CHARGED):
         charging = True
     elif status in (STATUS_IDLE, STATUS_CLEANING, STATUS_UPDATING):
         charging = False

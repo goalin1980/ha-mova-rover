@@ -51,6 +51,7 @@
         "name": "Status",
         "state": {
           "idle": "Idle",
+          "docked": "Docked",
           "charging": "Charging",
           "charged": "Charged",
           "updating": "Updating",

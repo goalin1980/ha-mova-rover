@@ -9,6 +9,7 @@ from custom_components.mova_rover.redaction import (
     audit_serialized_diagnostics,
     fail_closed_diagnostics,
     safe_device,
+    safe_heartbeat_byte_9,
     safe_property,
     safe_property_value,
 )
@@ -23,6 +24,21 @@ def test_safe_property_only_preserves_reviewed_protocol_numbers() -> None:
     }
     assert safe_property(MovaProperty(7, 9, 0, 4))["value"] == {"kind": "integer"}
     assert safe_property_value([0, 1, 2, 255]) == {"kind": "array", "length": 4}
+
+
+def test_safe_heartbeat_observation_exposes_only_bounded_byte_nine() -> None:
+    heartbeat = ["private"] * 20
+    heartbeat[9] = 0x80 | 63
+
+    assert safe_heartbeat_byte_9(MovaProperty(1, 1, 0, heartbeat)) == 191
+    assert safe_heartbeat_byte_9(MovaProperty(1, 1, -4004, heartbeat)) is None
+    assert safe_heartbeat_byte_9(MovaProperty(1, 1, 0, heartbeat[:9])) is None
+
+    heartbeat[9] = "191"
+    assert safe_heartbeat_byte_9(MovaProperty(1, 1, 0, heartbeat)) is None
+
+    heartbeat[9] = 256
+    assert safe_heartbeat_byte_9(MovaProperty(1, 1, 0, heartbeat)) is None
 
 
 def test_safe_property_uses_bundle_local_hmac_for_unknown_values() -> None:

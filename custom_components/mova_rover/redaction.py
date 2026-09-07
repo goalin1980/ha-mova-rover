@@ -175,6 +175,20 @@ def safe_property(
     }
 
 
+def safe_heartbeat_byte_9(property_value: MovaProperty | None) -> int | None:
+    """Return only the bounded heartbeat byte used by the related-device decoder."""
+
+    if property_value is None or not property_value.supported:
+        return None
+    value = property_value.value
+    if not isinstance(value, (list, tuple)) or len(value) <= 9:
+        return None
+    byte = value[9]
+    if isinstance(byte, bool) or not isinstance(byte, int) or not 0 <= byte <= 255:
+        return None
+    return byte
+
+
 def _safe_metadata(value: str | None) -> str | None:
     """Keep short vendor identifiers while rejecting free-form/untrusted text."""
 
