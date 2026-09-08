@@ -48,6 +48,7 @@
         "name": "Status",
         "state": {
           "idle": "Bereit",
+          "docked": "Am Dock",
           "charging": "Lädt",
           "charged": "Geladen",
           "updating": "Aktualisiert",

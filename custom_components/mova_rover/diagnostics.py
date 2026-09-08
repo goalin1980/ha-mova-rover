@@ -10,7 +10,12 @@ from homeassistant.const import CONF_PASSWORD, CONF_USERNAME
 from homeassistant.core import HomeAssistant
 
 from .const import CONF_DEVICE_ID, CONF_MODEL, CONF_REGION, INTEGRATION_VERSION
-from .redaction import fail_closed_diagnostics, safe_device, safe_property
+from .redaction import (
+    fail_closed_diagnostics,
+    safe_device,
+    safe_heartbeat_byte_9,
+    safe_property,
+)
 
 
 async def async_get_config_entry_diagnostics(
@@ -65,10 +70,14 @@ async def async_get_config_entry_diagnostics(
         diagnostics["properties"] = [
             safe_property(item) for _, item in sorted(data.properties.items())
         ][:128]
+        diagnostics["heartbeat_observation"] = {
+            "byte_9": safe_heartbeat_byte_9(data.properties.get((1, 1)))
+        }
     else:
         diagnostics["device"] = {"alias": "device_1"}
         diagnostics["state"] = None
         diagnostics["properties"] = []
+        diagnostics["heartbeat_observation"] = {"byte_9": None}
 
     secrets = tuple(
         value
