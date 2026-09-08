@@ -8,7 +8,9 @@ device evidence takes precedence.
 - Public repository: `goalin1980/ha-mova-rover`.
 - `origin/main`, local clone baseline, and annotated tag `v0.1.0` all resolve to peeled commit
   `024725a1a48aa094fb6ae4023f4bddc78643895b` (`Fix CI metadata warnings`).
-- Work continues locally on `codex/development-setup`; no push or pull request was made.
+- The verified changes were squash-merged through PR #1 as commit `dd1a209` on `main`.
+  Release `v0.1.1` is being prepared separately on `codex/release-v0.1.1` and is not published
+  yet.
 - GitHub reports no open issues. The latest Validate and Release runs for `024725a` completed
   successfully, and release `v0.1.0` contains `mova_rover.zip`.
 - Lightweight environment: `.venv`, Python 3.12.14. Installed from `requirements.test.txt`.
@@ -42,10 +44,10 @@ device evidence takes precedence.
   removed the fully charged Rover from the dock and left it idle returned battery 100%, cloud code
   `0`, `online = true`, and property `2:1 = 0`. Together the three captures confirm `0 = idle` for
   the observed undocked state and `2 = docked`, while `2` does not reveal the charge phase.
-- The local working branch now maps `2` to model-specific status `docked` for
+- The merged implementation maps `2` to model-specific status `docked` for
   `mova.swbot.g2526` and leaves the charging binary value unknown in that state. It also adds a
-  bounded diagnostic field for heartbeat byte 9 only. These changes are not pushed or installed
-  yet and are covered by decoder, bounds, and redaction regression tests.
+  bounded diagnostic field for heartbeat byte 9 only. These changes are covered by decoder,
+  bounds, and redaction regression tests but are not part of a published release yet.
 - A different, later diagnostic showed battery 67%, property `2:1 = 0`, normalized `idle`,
   `state.online = false`, cloud code `80001`, and an older `last_seen`. It does not capture the
   charging observation. The coordinator treats `80001` as device-offline and retains the prior
